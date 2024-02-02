@@ -1,11 +1,12 @@
 {
-    "arbitrum": {
+    "optimism": {
         "par":  "1",
         "ceil": "25",
         "uniadaptrange": "1",
         "uniadaptttl": "86400",
         "daiusdttl": "86400",
         "xauusdttl": "86400",
+        "inrusdttl": "86400",
         "platpep": "2",
         "platpop": "1.1",
         "plotpep": "2",

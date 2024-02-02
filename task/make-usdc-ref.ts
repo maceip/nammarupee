@@ -92,7 +92,7 @@ task('make-usdc-ref', '')
       divider.setConfig,
       b32('rico:ref'),
       [[multiplier.address, cladapt.address, dapp.ball.address],
-      [b32('rico:usd'), b32('xau:usd'), bn2b32(BN.from(10).pow(27 + 12))]],
+      [b32('rico:usd'), b32('inr:usd'), bn2b32(BN.from(10).pow(27 + 12))]],
       { gasLimit: args.gasLimit }
     )
 

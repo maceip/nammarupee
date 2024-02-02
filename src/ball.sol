@@ -30,6 +30,7 @@ contract Ball is Math, Ward {
     bytes32 internal constant RICO_DAI_TAG  = "rico:dai";
     bytes32 internal constant RICO_USD_TAG  = "rico:usd";
     bytes32 internal constant XAU_USD_TAG   = "xau:usd";
+    bytes32 internal constant INR_USD_TAG   = "inr:usd";
     bytes32 internal constant DAI_USD_TAG   = "dai:usd";
     bytes32 internal constant RICO_REF_TAG  = "rico:ref";
     bytes32 internal constant RISK_RICO_TAG = "risk:rico";
@@ -81,13 +82,13 @@ contract Ball is Math, Ward {
         address ricorisk;
         address dai;
         address dai_usd_agg;
-        address xau_usd_agg;
+        address inr_usd_agg;
         uint256 par;
         uint256 ceil;
         uint256 uniadaptrange;
         uint256 uniadaptttl;
         uint256 daiusdttl;
-        uint256 xauusdttl;
+        uint256 usdttl;
         uint256 platpep;
         uint256 platpop;
         uint256 plotpep;
@@ -217,7 +218,7 @@ contract Ball is Math, Ward {
 
         // set feedbase component configs
         // rico/usd, rico/ref
-        cladapt.setConfig(XAU_USD_TAG, ChainlinkAdapter.Config(args.xau_usd_agg, args.xauusdttl));
+        cladapt.setConfig(INR_USD_TAG, ChainlinkAdapter.Config(args.inr_usd_agg, args.inrusdttl));
         cladapt.setConfig(DAI_USD_TAG, ChainlinkAdapter.Config(args.dai_usd_agg, args.daiusdttl));
         // rico/dai, dai/rico (== 1 / (rico/dai))
         uniadapt.setConfig(
@@ -230,7 +231,7 @@ contract Ball is Math, Ward {
                        address(uniadapt), RICO_DAI_TAG, RAY);
         _configureBlock(divider, RICO_REF_TAG,
                        address(multiplier), RICO_USD_TAG,
-                       address(cladapt),    XAU_USD_TAG, RAY);
+                       address(cladapt),    INR_USD_TAG, RAY);
 
         // risk:rico
         uniadapt.setConfig(
@@ -274,7 +275,7 @@ contract Ball is Math, Ward {
         }
         _configureBlock(divider, gemreftag,
                         address(gemusdsrc), gemusdtag,
-                        address(cladapt),   XAU_USD_TAG,
+                        address(cladapt),   INR_USD_TAG,
                         10 ** (27 - (18 - Gem(ilkparams.gem).decimals())));
     }
 

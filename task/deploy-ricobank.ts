@@ -53,7 +53,7 @@ task('deploy-ricobank', '')
     const tokens   = args.tokens ? require(args.tokens)[args.netname] : {}
     const settings = require('./settings.json')[hre.network.name]
 
-    let agg_daiusd, agg_xauusd, agg_artifact, agg_type
+    let agg_daiusd, agg_inrusd, agg_artifact, agg_type
     let aggdapp, agg_pack
     if (args.mock) {
         // deploy a fake aggregator that we can easily write to
@@ -63,12 +63,12 @@ task('deploy-ricobank', '')
         agg_daiusd   = await agg_type.deploy(
             fb.address, ali.address, b32('dai:usd'), 8, {gasLimit: args.gasLimit}
         )
-        agg_xauusd   = await agg_type.deploy(
-            fb.address, ali.address, b32('xau:usd'), 8,
+        agg_inrusd   = await agg_type.deploy(
+            fb.address, ali.address, b32('inr:usd'), 8,
             {gasLimit: args.gasLimit}
         )
         await send(fb.push, b32('dai:usd'), bn2b32(BN.from('100000000')), constants.MaxUint256);
-        await send(fb.push, b32('xau:usd'), bn2b32(BN.from('190000000000')), constants.MaxUint256);
+        await send(fb.push, b32('inr:usd'), bn2b32(BN.from('190000000000')), constants.MaxUint256);
 
 
     } else {
@@ -83,7 +83,7 @@ task('deploy-ricobank', '')
 
         aggdapp    = await dpack.load(agg_pack, ethers, ali)
         agg_daiusd = aggdapp.agg_dai_usd
-        agg_xauusd = aggdapp.agg_xau_usd
+        agg_inrusd = aggdapp.agg_inr_usd
     }
 
 
@@ -147,13 +147,13 @@ task('deploy-ricobank', '')
         ricorisk: deps.ricorisk.address,
         dai: deps.dai.address,
         dai_usd_agg: agg_daiusd.address,
-        xau_usd_agg: agg_xauusd.address,
+        inr_usd_agg: agg_inrusd.address,
         par: ray(settings.par),
         ceil: wad(settings.ceil),
         uniadaptrange: BN.from(settings.uniadaptrange),
         uniadaptttl:   BN.from(settings.uniadaptttl),
         daiusdttl:  BN.from(settings.daiusdttl),
-        xauusdttl:  BN.from(settings.xauusdttl),
+        inrusdttl:  BN.from(settings.inrusdttl),
         platpep:    BN.from(settings.platpep),
         platpop:    ray(settings.platpop),
         plotpep:    BN.from(settings.plotpep),

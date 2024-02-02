@@ -260,7 +260,7 @@ abstract contract RicoSetUp is BaseHelper {
             ricorisk,
             DAI,
             DAI_USD_AGG,
-            XAU_USD_AGG,
+            INR_USD_AGG,
             INIT_PAR,
             100000 * WAD,
             20000, // ricodai

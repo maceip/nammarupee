@@ -20,6 +20,7 @@ abstract contract BaseHelper is Math, Test, UniSetUp {
     address constant public DAI          = 0x6B175474E89094C44Da98b954EedeAC495271d0F;
     address constant public RAI          = 0x03ab458634910AaD20eF5f1C8ee96F1D6ac54919;
     address constant public WETH         = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    address constant public INR_USD_AGG  = 0x5535e67d8f99c8ebe961E1Fc1F6DDAE96FEC82C9
     address constant public DAI_USD_AGG  = 0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9;
     address constant public XAU_USD_AGG  = 0x214eD9Da11D2fbe465a6fc601a91E62EbEc1a0D6;
     address constant public WETH_USD_AGG = 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419;
@@ -31,6 +32,7 @@ abstract contract BaseHelper is Math, Test, UniSetUp {
     bytes32 constant public RISK_RICO_TAG = "risk:rico";
     bytes32 constant public RICO_REF_TAG  = "rico:ref";
     bytes32 constant public XAU_USD_TAG   = "xau:usd";
+    bytes32 constant public INR_USD_TAG   = "inr:usd";
     bytes32 constant public DAI_REF_TAG   = "dai:ref";
     bytes32 constant public DAI_USD_TAG   = "dai:usd";
     bytes32 constant public WETH_REF_TAG  = "weth:ref";
@@ -60,10 +62,10 @@ abstract contract BaseHelper is Math, Test, UniSetUp {
     function get_rico_sqrtx96(uint par) internal view returns (uint160 sqrt_ratio_x96) {
         // get ricodai price given par, ref and 1 dai = 1 usd. ricodai should be par * ref/usd
         // ie xauusd = 1900, init par = 1.0, pool price should be 1 rico costs 1900 dai
-        AggregatorInterface xauusd_agg = AggregatorInterface(XAU_USD_AGG);
-        (, int256 res, , , ) = xauusd_agg.latestRoundData();
-        uint xauusd = uint(res);
-        uint ratio = par * xauusd / 10**CL_DEC;
+        AggregatorInterface inrusd_agg = AggregatorInterface(INR_USD_AGG);
+        (, int256 res, , , ) = inrusd_agg.latestRoundData();
+        uint inrusd = uint(res);
+        uint ratio = par * inrusd / 10**CL_DEC;
         uint sqrt_ratio = sqrt(ratio * RAY);
         sqrt_ratio_x96 = uint160(sqrt_ratio * X96 / RAY);
     }
